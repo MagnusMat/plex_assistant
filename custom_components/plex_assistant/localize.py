@@ -911,6 +911,84 @@ LOCALIZE = {
             "post": [],
         },
     },
+    "template": {
+        # Generic Terms
+        "play": "",
+        "movies": [],
+        "shows": [],
+
+        # Controls
+        "controls": {
+            "play": "",
+            "pause": "",
+            "stop": "",
+            "jump_forward": "",
+            "jump_back": "",
+        },
+
+        # Text for errors
+        "not_found": "",
+        "cast_device": "",
+        # no_call error is for when no command was recieved
+        "no_call": "",
+
+        # Invoke Command
+        "play_start": [],
+
+        # Ordinal Numbers to Integers
+        "ordinals": {
+            # Edit the keys for translation, not the integers.
+            "first": "1",
+            "second": "2",
+            "third": "3",
+            "fourth": "4",
+            "fifth": "5",
+            "sixth": "6",
+            "seventh": "7",
+            "eighth": "8",
+            "ninth": "9",
+            "tenth": "10",
+            # Do not edit the keys of pre and post
+            "pre": [],
+            "post": [],
+        },
+
+        # Keywords, Pre, and Post
+        "season": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "episode": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "latest": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "unwatched": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        "ondeck": {
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+        # This is the separator word used at the end of the command
+        # to let us know it is a cast device.
+        # Examples: "Play Coco on Samsung TV" - "Play Coco on the Samsung TV"
+        "separator": {
+            # Only use one keyword for this one.
+            "keywords": [],
+            "pre": [],
+            "post": [],
+        },
+    }
     # "template": {
     #     # Generic Terms
     #     "play": "",
