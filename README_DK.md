@@ -2,11 +2,11 @@
 
 [Installation](#installation) ｜ [Konfigurering](#konfigurering) ｜ [IFTTT/DialogFlow Opsætning](#iftttdialogflow-opsætning) ｜ [Kommandoer](#kommandoer) ｜ [Hjælp med oversættelse](#oversættelse)<br><hr>
 
-Plex assistent is a Home Assistant component to allow Google Assistant to cast Plex media to Google cast and Plex devices with a bit of help from [IFTTT or DialogFlow](#iftttdialogflow-setup).
+Plex assistenten er en Home Assistant komponent der tillader Google Assistant at caste Plex medier til Google cast og Plex enheder med en smule hjælp fra [IFTTT eller DialogFlow](#iftttdialogflow-setup).
 
-For eksempel: `"Hej Google, tell Plex to play The Walking Dead on the Downstairs TV."`
+For eksempel: `"Hej Google, bed Plex om at afspille The Walking Dead på Stue TV."`
 
-You can use the component's service without IFTTT/DialogFlow to call the commands however you'd like. Visit the services tab in HA's Developer Tools to test it out.
+Du kan benytte komponentents tjeneste uden IFTTT/DialogFlow til at kalde på kommandoer ligesom du vil. Besøg service fanen i HA's Developer Tools for at teste det.
 
 ## Støttende udvikling
 
@@ -18,73 +18,74 @@ You can use the component's service without IFTTT/DialogFlow to call the command
 
 ## Forfatters noter
 
-This is just a side project made to fill the absence of native Google Assistant support in Plex and because the Phlex/FlexTV projects aren't in working order at the moment.
+Dette er et sideprojekt der er skabt til at udfylde manglen på indbygget Google Assistent understøttelse af Plex og fordi at Phlex/FelxTV projekterne ikke bliver udvikled på lige pt.
 
-This project is not a priority as Plex could add Google Assistant support or FlexTV may become viable again at any time. That being said, I will be adding features and fixing issues until that time. As always, I both welcome and greatly appreciate pull requests.
+Dette projekt er ikke en prioritet, da Plex kunne tilføje understøttelse af Google Assistenten eller FlexTV kunne blive en mulighed igen. Når at det er sagt, så vil jeg tilføje funktioner og fikse problemer indtil at dette skulle finde sted. Jeg byder velkommen og vil stærkt værtsætte pull requests, som altid.
 
-Thank you for understanding.
+Tak for deres forståelse.
 
 ## Installation
 
-Install by using one of the methods below:
+Installer med en af nederstående metoder:
 
-* **Install with [HACS](https://hacs.xyz/):** Search integrations for "Plex Assistant", select and hit install. Add the configuration (see below) to your configuration.yaml file.
+* **Installer med [HACS](https://hacs.xyz/):** Søg integrationer for "Plex Assistant", vælg den og tryk installer. Tilføj konfigurationen (se nedenunder) til din configuration.yaml fil.
 
-* **Install Manually:** Install this component by copying all of [these files](https://github.com/maykar/plex_assistant/tree/master/custom_components/plex_assistant) to `/custom_components/plex_assistant/`. Add the configuration (see below) to your configuration.yaml file.
+* **Installer manuelt:** Installer denne komponent ved at kopiere alle [disse filer](https://github.com/maykar/plex_assistant/tree/master/custom_components/plex_assistant) til `/custom_components/plex_assistant/`. Tilføj konfigurationen (se nedenunder) til din configuration.yaml fil.
 
 ## Konfiguration
 
 Add config to your configuration.yaml file.
 
-| Key          | Default | Necessity  | Description                                                                                                                               |
-| :----------- | :------ | :--------- | :---------------------------------------------------------------------------------------------------------------------------------------- |
-| url          |         | **Krævet** | The full url to your Plex instance including port.                                                                                        |
-| token        |         | **Krævet** | Your Plex token. [How to find your Plex token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/). |
-| default_cast |         | Optional   | The name of the cast device to use if none is specified.                                                                                  |
-| language     | 'en'    | Optional   | Language code. See Below for supported Languages.                                                                                         |
-| tts_errors   | true    | Optional   | Will speak errors on the selected cast device. For example: when the specified media wasn't found.                                        |
-| aliases      |         | Optional   | Set alias names for your devices. Example below, set what you want to call it then it's actual name or machine ID.                        |
-| cast_delay   | 6       | Optional   | This delay helps prevent "Sorry, something went wrong" and grey screen errors. [See below for more info.](#cast-delay)                    |
+| Nøgle        | Standard | Nødvendighed | Beskrivelse                                                                                                                                   |
+|--------------|----------|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| url          |          | **Krævet**   | The full url to your Plex instance including port.                                                                                            |
+| token        |          | **Krævet**   | Din Plex token. [Hvordan du finder din Plex token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/). |
+| default_cast |          | Valgfri      | Navnet på casting enheden anvender vhis der ikke er et givet.                                                                                 |
+| language     | 'dk'     | Valgfri      | Language code. See Below for supported Languages.                                                                                             |
+| tts_errors   | true     | Valgfri      | Will speak errors on the selected cast device. For example: when the specified media wasn't found.                                            |
+| aliases      |          | Valgfri      | Set alias names for your devices. Example below, set what you want to call it then it's actual name or machine ID.                            |
+| cast_delay   | 6        | Valgfri      | This delay helps prevent "Sorry, something went wrong" and grey screen errors. [Se nedenunder for mere info.](#cast-forsinkelse)              |
 
 <hr>
 
-**Sample Config**
-```
+**Eksempel konfiguration**
+
+```Python
 plex_assistant:
   url: 'http://192.168.1.3:32400'
   token: 'tH1s1Sy0uRT0k3n'
-  default_cast: 'Downstairs TV'
-  language: 'en'
+  default_cast: 'Stue TV'
+  language: 'dk'
   tts_errors: true
   aliases:
     Downstairs TV: TV0565124
     Upstairs TV: Samsung_66585
 ```
 
-## Companion Sensor
+## Kompangon sensor
 
-Plex Assistant includes a sensor to display the names of currently connected devices as well as the machine ID of Plex clients. This is to help with config and troubleshooting. To update the sensor send the command "update sensor" to Plex Assistant either through Google Assistant or as a HA service call.
+Plex Assistenten inkluderer en sensor til at vise navnene på forbundede enheder og Plex klienternes machine ID. Dette er for at hjælpe med konfigurering og fejlfinding. For at opdatere sensoren, send kommandoen "update sensor" til Plex Assistenten, enter gennem Google Assistenten eller som et HA service kald.
 
-```
+```Python
 sensor:
 - platform: plex_assistant
 ```
 
-***You must restart after installation and configuration, you may want to setup IFTTT or DialogFlow with the instructions below before doing so.***
+***Du skal genstarte efter installation og konfigurering, du kan opstille IFTTT eller DialogFlow med instruktionerne nedenunder, før at du genstarter.***
 
-## IFTTT/DialogFlow-Setup
+## IFTTT/DialogFlow opstilling
 
 You can either use IFTTT or DialogFlow to trigger Plex Assistant. IFTTT is the easiest way to set this up, DialogFlow is more involved and has some quirks. The advantage to using Dialogflow is it's support for more languages (as long as the translation has been made for Plex Assistant, see below).
 
-#### Supported Languages
-Plex Assistant currently supports: English (en), Swedish (sv), Dutch (nl), French (fr), and Italian (it) when using Dialogflow. [Help add translations.](#translation)
+#### Understøttede sprog
+Plex Assistenten understøtter: Engelsk (en), svensk (sv), hollandsk (nl), frensk (fr), og italiensk (it) med DialogFlow. [Hjælp med oversættelser.](#translation)
 
 <details>
-  <summary><b>IFTTT Setup Guide</b></summary>
+  <summary><b>IFTTT opstillings guide</b></summary>
 
-## IFTTT Setup
+## IFTTT opstilling
 
-#### In Home Assistant
+#### Med Home Assistenten
 
 * Go to "Configuration" in your HA sidebar and select "Integrations"
 * Hit the add button and search for "IFTTT" and click configure.
@@ -92,7 +93,7 @@ Plex Assistant currently supports: English (en), Swedish (sv), Dutch (nl), Frenc
 * Copy or save the URL that is displayed at the end, we'll need it later and it won't be shown again.
 * Click "Finish"
 
-#### In IFTTT
+#### Med IFTTT
 
 Visit [ifttt.com](https://ifttt.com/) and sign up or sign in.
 
@@ -110,7 +111,7 @@ Now you can select how you want to trigger this service, you can select up to 3 
 
 `{ "action": "call_service", "service": "plex_assistant.command", "command": "{{TextField}}" }`
 
-#### In Home Assistant
+#### Med Home Assistant
 
 Finally, add the following automation to your Home Assistant configuration.yaml:
 
@@ -137,20 +138,20 @@ automation:
 
 <details>
 
-  <summary><b>DialogFlow Setup Guide</b></summary>
+  <summary><b>DialogFlow opstillings guide</b></summary>
 
-## DialogFlow Setup
+## DialogFlow opstilling
 
-#### In Home Assistant
+#### Med Home Assistant
 
 * Go to "Configuration" in your HA sidebar and select "Integrations"
 * Hit the add button and search for "Dialogflow".
 * Copy or save the URL that is displayed, we'll need it later and it won't be shown again.
 * Click "Finish"
 
-#### In DialogFlow
+#### Med DialogFlow
 
-Visit https://dialogflow.com/ and sign up or sign in.
+Besøg <https://dialogflow.com/> og tilmeld dig eller log ind.
 Keep going until you get to the "Welcome to Dialogflow!" page with "Create Agent" in the sidebar.
 
 - Click on Create Agent and Type "Plex_Assistant" as the agent name and select "Create"
@@ -173,9 +174,9 @@ Keep going until you get to the "Welcome to Dialogflow!" page with "Create Agent
 - Click "Decide how your action is invoked"
 - Under "Display Name" type "Plex" then hit save in the top right (it may give an error, but thats okay).
 
-#### In Home Assistant
+#### Med Home Assistant
 
-Add the following to your `configuration.yaml` file
+Tilføj det nederstående til din `configuration.yaml` fil
 
 ```Python
 intent_script:
@@ -190,7 +191,7 @@ intent_script:
 
 You can now trigger Plex Assistant by saying "Hey Google, tell plex to..." or "Hey Google, ask plex to..."
 
-***Restart after adding the above.***
+***Genstart efter du har tilføjer der overstående.***
 
 </details>
 
@@ -200,7 +201,7 @@ You can now trigger Plex Assistant by saying "Hey Google, tell plex to..." or "H
 
 A show or movie's title and the Chromecast device used in your phrase are processed using a fuzzy search. Meaning it will select the closest match using your Plex media titles and available cast device names. `"play walk in deed on the dawn tee"` would become `"Play The Walking Dead on the Downstairs TV."`. This even works for partial matches. `play Pets 2` will match `The Secret Life of Pets 2`.
 
-#### You can say things like:
+#### Du kan sige ting som:
 
 - `"play the latest episode of Breaking Bad on the Living Room TV"`
 - `"play unwatched breaking bad"`
@@ -211,7 +212,7 @@ A show or movie's title and the Chromecast device used in your phrase are proces
 - `"play season 1 episode 3 of The Simpsons"`
 - `"play first season second episode of Taskmaster on the Theater System"`
 
-### Control Commands:
+### Kontrol kommandoer:
 
 - `play`
 - `pause`
@@ -255,4 +256,4 @@ plex_assistant:
 
 ## Oversættelse
 
-You can contribute to the translation/localization of this component by using the [translation guide](translation.md).
+Du kan bidrage til oversættelsen/lokaliseringen af denne komponent ved at bruge [øversættelses guiden](translation.md).
